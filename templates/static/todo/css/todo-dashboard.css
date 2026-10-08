@@ -29,6 +29,24 @@
     transform: translateY(-1px);
 }
 
+.todo-dashboard .task-edit {
+    display: grid;
+    width: 46px;
+    color: #0080ff;
+    cursor: pointer;
+    background: hsl(206, 100%, 93%);
+    border: 1px solid #cfdcf5;
+    border-radius: 12px;
+    place-items: center;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.todo-dashboard .task-edit:hover {
+    color: #ffffff;
+    background: #0080ff;
+    transform: translateY(-1px);
+}
+
 .todo-dashboard .task-delete {
     display: grid;
     width: 46px;

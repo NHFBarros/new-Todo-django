@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Editar tarefa | Minhas Tarefas{% endblock %}
+
+{% block page_title %}Editar tarefa{% endblock %}
+
+{% block page_description %}Edite uma tarefa em sua lista e defina quando ela precisa ser concluída.{% endblock %}
+
+{% block content %}
+<section class="card task-form-card">
+    <form method="POST" class="task-form" action="{% url 'todoEdit' todo.id %}">
+        {% csrf_token %}
+
+        <div class="form-field">
+            <label for="title">Título da tarefa</label>
+            <input id="title" name="title" value="{{ todo.title }}" type="text" placeholder="Ex.: Preparar apresentação" required autofocus>
+        </div>
+
+        <div class="form-field">
+            <label for="description">Descrição <span class="muted">(opcional)</span></label>
+            <textarea id="description" name="description" rows="4" placeholder="Inclua detalhes que ajudem a concluir esta tarefa.">{{ todo.description }}</textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label for="due_date">Prazo</label>
+                <input id="due_date" name="due_date" value="{{ todo.due_date|date:'Y-m-d' }}" type="date">
+            </div>
+
+            <div class="form-field">
+                <label for="priority">Prioridade</label>
+                <select id="priority" name="priority">
+                    <option value="low" {% if todo.priority == "low" %}selected{% endif %}>Baixa</option>
+                    <option value="medium" {% if todo.priority == "medium" %}selected{% endif %}>Média</option>
+                    <option value="high" {% if todo.priority == "high" %}selected{% endif %}>Alta</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a class="btn btn-secondary" href="{% url 'todo' %}">Cancelar</a>
+            <button class="btn btn-primary" type="submit">Salvar alterações</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

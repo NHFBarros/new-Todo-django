@@ -68,6 +68,9 @@
                     </div>
                     <span class="task-priority">{{ todo.priority }}</span>
                 </div>
+                <button class="task-edit" type="button" onclick="location.href='{% url 'todoEdit' todo.id %}'" aria-label="Editar {{ todo.title }}" title="Editar tarefa">
+                    <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                </button>
                 <button class="task-delete" type="button" onclick="todoDelete({{ todo.id }})" aria-label="Excluir {{ todo.title }}" title="Excluir tarefa">
                     <i class="fa-solid fa-trash" aria-hidden="true"></i>
                 </button>

@@ -60,4 +60,25 @@ def todoDelete(request, id):
     return redirect('todo')
 
 def todoEdit(request, id):
-    
+    todo = get_object_or_404(Todo, id=id)
+
+    if request.method == "GET":
+        return render(request, 'todoForm.html', {
+            'todo': todo,
+            'title': todo.title,
+            'description': todo.description,
+            'due_date': todo.due_date,
+            'priority': todo.priority,
+            'done': todo.done,
+        })
+
+    elif request.method == "POST":
+        todo.title = request.POST.get('title')
+        todo.description = request.POST.get('description')
+        todo.due_date = request.POST.get('due_date')
+        todo.priority = request.POST.get('priority')
+        todo.done = request.POST.get('done') == 'on' or request.POST.get('done') == 'true'
+        todo.save()
+        return redirect('todo')
+
+    return redirect('todo')
