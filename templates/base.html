@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Minhas Tarefas{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'general/css/base.css' %}">
+
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header class="topbar">
+        <div class="container navbar">
+            <a href="{% url 'todo' %}" class="brand">
+                <span class="brand-mark">✓</span>
+                <span>Minhas Tarefas</span>
+            </a>
+
+            <nav class="nav-links" aria-label="menu principal">
+                <a href="{% url 'todo' %}">Todas</a>
+                <a href="#">Hoje</a>
+                <a href="#">Próximas</a>
+                <a href="#">Concluídas</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="{% url 'todoAdd' %}" class="btn btn-primary">+ Nova tarefa</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <div class="container">
+            {% block hero %}
+            {% endblock %}
+
+            <div class="content">
+                {% block content %}
+                
+                {% endblock %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+    </footer>
+</body>
+</html>

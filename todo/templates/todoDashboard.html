@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block hero %}
+
+<h1>Minhas tarefas</h1>
+
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="{% static 'todo/css/todo-dashboard.css' %}">
+<script>
+    function setDone(id) {
+        const doneUrl = "{% url 'todoDone' 0 %}".replace('/0/', `/${id}/`);
+
+        fetch(doneUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Não foi possível atualizar a tarefa.');
+                }
+
+                window.location.reload();
+            })
+            .catch((error) => console.error(error));
+    }
+
+    function todoDelete(id) {
+        const deleteUrl = "{% url 'todoDelete' 0 %}".replace('/0/', `/${id}/`);
+
+        fetch(deleteUrl, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Não foi possível deletar a tarefa.');
+                }
+
+                window.location.reload();
+            })
+            .catch((error) => console.error(error));
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="card todo-dashboard">
+    <h2>Lista de tarefas</h2>
+
+    <ul class="task-list">
+        {% for todo in todos %}
+            <li class="task-row">
+                <div class="task-item {% if todo.done %}task-item-true{% else %}task-item-false{% endif %}" onclick="setDone({{ todo.id }})">
+                    <div>
+                        <strong>{{ todo.title }}</strong>
+                        <p class="muted">{{ todo.description }}</p>
+                        <small class="muted">Prazo: {{ todo.due_date|date:"d/m/Y" }}</small>
+                    </div>
+                    <span class="task-priority">{{ todo.priority }}</span>
+                </div>
+                <button class="task-delete" type="button" onclick="todoDelete({{ todo.id }})" aria-label="Excluir {{ todo.title }}" title="Excluir tarefa">
+                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                </button>
+            </li>
+        {% empty %}
+            <li class="task-item">
+                <span class="muted">Você ainda não cadastrou nenhuma tarefa.</span>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
